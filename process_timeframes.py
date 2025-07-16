@@ -75,5 +75,10 @@ def process_timeframes():
         out.to_json(f"{name}.json", orient="records")
         print(f"✅ Saved {name}.json with {len(out)} points")
 
+import time
+
 if __name__ == "__main__":
-    process_timeframes()
+    while True:
+        print("🔁 Running JSON aggregation...")
+        process_timeframes()
+        time.sleep(300)  # wait 5 minutes
