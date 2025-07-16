@@ -4,11 +4,9 @@ from io import StringIO
 import os
 from datetime import datetime
 
-# ✅ Your correct endpoints
 LIST_ENDPOINT = "https://btc-spread-test-pipeline.onrender.com/csv-list"
 CSV_BASE_URL  = "https://btc-spread-test-pipeline.onrender.com/csv/"
 
-# ✅ 5 confirmed manually saved CSVs from your screenshot
 BASE_CSV_LIST = [
     "2025-07-14_16.csv",
     "2025-07-15_00.csv",
@@ -44,10 +42,8 @@ def load_csv(url):
         return None
 
 def process_timeframes():
-    # Start with your known saved files
     urls = [CSV_BASE_URL + filename for filename in BASE_CSV_LIST]
 
-    # Add most recent CSV dynamically
     latest_url = get_latest_csv_url()
     if latest_url and latest_url not in urls:
         urls.append(latest_url)
@@ -62,20 +58,17 @@ def process_timeframes():
         print("❌ No data could be loaded.")
         return
 
-    # Combine and sort
     df = pd.concat(all_data)
     df['time'] = pd.to_datetime(df['time'])
     df.set_index('time', inplace=True)
     df = df.sort_index()
 
-    # Create multiple timeframes
     output_frames = {
         '1min': df.resample('1T').mean().dropna(),
         '5min': df.resample('5T').mean().dropna(),
         '1h':   df.resample('1H').mean().dropna(),
     }
 
-    # Save each to JSON
     for name, resampled in output_frames.items():
         out = resampled.reset_index()
         out['time'] = out['time'].dt.strftime('%Y-%m-%dT%H:%M:%S')
