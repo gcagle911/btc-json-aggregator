@@ -1,4 +1,5 @@
 from flask import Flask, send_file
+from flask_cors import CORS
 from process_timeframes import process_timeframes
 import os
 
