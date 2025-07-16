@@ -4,11 +4,10 @@ from process_timeframes import process_timeframes
 import os
 
 app = Flask(__name__)
+CORS(app)
 
-@app.before_first_request
-def initialize():
-    print("🚀 Generating initial JSONs...")
-    process_timeframes()
+print("🚀 Generating initial JSONs...")
+process_timeframes()
 
 @app.route("/")
 def home():
