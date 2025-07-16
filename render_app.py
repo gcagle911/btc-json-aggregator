@@ -7,14 +7,10 @@ CORS(app)
 
 @app.route("/")
 def home():
-    return "✅ BTC JSON Aggregator is running."
+    return "✅ BTC JSON Aggregator is running"
 
 @app.route("/<timeframe>.json")
 def serve_json(timeframe):
-    from process_timeframes import process_timeframes
-    print(f"📦 Generating {timeframe}.json")
-    process_timeframes()
-
     filename = f"{timeframe}.json"
     if os.path.exists(filename):
         return send_file(filename)
