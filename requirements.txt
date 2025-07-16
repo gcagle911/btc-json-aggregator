@@ -2,3 +2,4 @@ flask==2.3.3
 pandas
 requests
 flask-cors
+gunicorn
